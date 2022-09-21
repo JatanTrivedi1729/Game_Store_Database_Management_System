@@ -1,3 +1,5 @@
+Create Database Game_Store;
+
 create table Game_Info(
     Store_Id varchar(20) Primary Key,
     Name varchar(20) not null,
@@ -50,13 +52,13 @@ create table Achievements(
     CONSTRAINT Achievement Primary Key (Store_Id,Achievement_Id)
 );
 
-create OwnerList(
+create table OwnerList(
     Store_Id varchar(20) not null Foreign Key references Game_Info(Store_Id),
     Friend_Id varchar(20) not null Foreign Key references Player_Info(Friend_Id),
     CONSTRAINT Owner Primary Key (Store_Id,Friend_Id)
 );
 
-create FriendList(
+create table FriendList(
     To_Id varchar(20) not null Foreign Key references Player_Info(Friend_Id),
     From_Id varchar(20) not null Foreign Key references Player_Info(Friend_Id),
     CONSTRAINT Friend Primary Key (To_Id,From_Id)
