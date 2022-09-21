@@ -5,17 +5,17 @@ create table Game_Info(
     Price float not null,
     Age_Rating int not null,
     Release_Date date not null,
-    MinSpec_Id varchar(20) not null,
-    RecSpec_Id varchar(20) not null,
-    Publisher_Id varchar(20) not null,
-    Developer_Id varchar(20) not null,
+    MinSpec_Id varchar(20) not null Foreign Key references Specsheet(Spec_Id),
+    RecSpec_Id varchar(20) not null Foreign Key references Specsheet(Spec_Id),
+    Publisher_Id varchar(20) not null Foreign Key references Publisher(Publisher_Id),
+    Developer_Id varchar(20) not null Foreign Key references Developer(Developer_Id),
 );
 
 create table Player_Info(
     Friend_Id varchar(20) Primary Key,
     Name varchar(20) not null,
     DOB date not null,
-    PCSpec_Id varchar(20) not null,
+    PCSpec_Id varchar(20) not null Foreign Key references Specsheet(Spec_Id),
 );
 
 create table Developer(
@@ -40,24 +40,24 @@ create table Specsheet(
 create table Genres(
     Genre_Id varchar(20) not null,
     Genre_Name varchar(20) not null,
-    Store_Id varchar(20) not null,
+    Store_Id varchar(20) not null Foreign Key references Game_Info(Store_Id),
     CONSTRAINT Game_Genre Primary Key (Store_Id,Genre_Id)
 );
 
 create table Achievements(
     Achievement_Id varchar(20) Primary Key,
-    Store_Id varchar(20) not null,
+    Store_Id varchar(20) not null Foreign Key references Game_Info(Store_Id),
     CONSTRAINT Achievement Primary Key (Store_Id,Achievement_Id)
 );
 
 create OwnerList(
-    Store_Id varchar(20) not null,
-    Friend_Id varchar(20) not null,
+    Store_Id varchar(20) not null Foreign Key references Game_Info(Store_Id),
+    Friend_Id varchar(20) not null Foreign Key references Player_Info(Friend_Id),
     CONSTRAINT Owner Primary Key (Store_Id,Friend_Id)
 );
 
 create FriendList(
-    To_Id varchar(20) not null,
-    From_Id varchar(20) not null,
+    To_Id varchar(20) not null Foreign Key references Player_Info(Friend_Id),
+    From_Id varchar(20) not null Foreign Key references Player_Info(Friend_Id),
     CONSTRAINT Friend Primary Key (To_Id,From_Id)
 );
